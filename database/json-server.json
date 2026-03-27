@@ -102,6 +102,5 @@
       "description": "Treino regenerativo hoje. Focando na recuperação mas mantendo o corpo em movimento",
       "timestamp": "2025-01-13T17:20:00Z"
     }
-  ],
-  "$schema": "./node_modules/json-server/schema.json"
+  ]
 }
