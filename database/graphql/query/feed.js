@@ -7,8 +7,21 @@ export const GET_FEED = gql`
       user
       time
       stats
+      category
       description
-      workout
+    }
+  }
+`;
+
+export const GET_FEED_BY_CATEGORY = gql`
+  query GetFeedByCategory($category: String) {
+    allFeeds(filter: { category: $category }) {
+      id
+      user
+      time
+      stats
+      category
+      description
     }
   }
 `;

@@ -6,28 +6,27 @@ import WorkoutCard from "../components/ui/WorkoutCard";
 import FloatingActionButton from "../components/ui/FloatingActionButton";
 import { useQuery } from "@apollo/client";
 import ErrorMessage from "../components/ui/ErrorMessage";
-import { GET_FEED } from "../../database/graphql/query/feed";
+import {
+  GET_FEED,
+  GET_FEED_BY_CATEGORY,
+} from "../../database/graphql/query/feed";
+import Dropdown from "../components/ui/Dropdown";
 
 function Feed({ onNavigateToNewPost, onNavigateToProfile, onLogout }) {
   const [activeItem, setActiveItem] = useState("feed");
   const [workouts, setWorkouts] = useState([]);
-  const { loading, error, data } = useQuery(GET_FEED);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const { loading, error, data } = useQuery(
+    selectedCategory ? GET_FEED_BY_CATEGORY : GET_FEED,
+    {
+      variables: selectedCategory ? { category: selectedCategory } : {},
+    },
+  );
 
   useEffect(() => {
-    const fetchWorkouts = async () => {
-      const normalizedWorkouts = data.allFeeds.map((item) => {
-        if (item.workout) {
-          return {
-            id: item.id,
-            ...item.workout,
-          };
-        }
-        return item;
-      });
-      setWorkouts(normalizedWorkouts);
-    };
-
-    fetchWorkouts();
+    if (data?.allFeeds) {
+      setWorkouts(data.allFeeds);
+    }
   }, [data]);
 
   const handleMenuClick = (itemId) => {
@@ -41,7 +40,11 @@ function Feed({ onNavigateToNewPost, onNavigateToProfile, onLogout }) {
     }
   };
 
-  console.log(error);
+  const categoryOptions = [
+    { value: "", label: "Todos" },
+    { value: "corrida", label: "Corrida" },
+    { value: "caminhada", label: "Caminhada" },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -57,6 +60,14 @@ function Feed({ onNavigateToNewPost, onNavigateToProfile, onLogout }) {
             <h1 className="text-2xl font-bold text-brand-graphite mb-6 hidden md:block">
               Feed de Treinos
             </h1>
+
+            <Dropdown
+              options={categoryOptions}
+              value={selectedCategory}
+              onChange={setSelectedCategory}
+              placeholder="Selecione uma categoria"
+              className="mb-6"
+            />
 
             {/* Loading State */}
             {loading && (
