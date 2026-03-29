@@ -7,8 +7,9 @@ export const GET_FEED = gql`
       user
       time
       stats
-      category
       description
+      category
+      timestamp
     }
   }
 `;
@@ -20,8 +21,9 @@ export const GET_FEED_BY_CATEGORY = gql`
       user
       time
       stats
-      category
       description
+      category
+      timestamp
     }
   }
 `;
