@@ -5,7 +5,7 @@ import EditProfileForm from "../components/forms/EditProfileForm";
 
 import { useState } from "react";
 
-function EditProfile({ onNavigateToFeed, onLogout }) {
+function EditProfile({ onNavigateToFeed, onNavigateToNewPost, onLogout }) {
   const [activeItem, setActiveItem] = useState("profile");
 
   const handleMenuClick = (itemId) => {
